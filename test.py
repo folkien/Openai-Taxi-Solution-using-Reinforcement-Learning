@@ -1,8 +1,24 @@
+import gym
+import numpy as np
+import tensorflow as tf
 import logging
 import imageio
+
 logging.getLogger().setLevel(logging.ERROR)
 
+env = gym.make("Taxi-v3")
+
 q_network = tf.keras.models.load_model('taxi_model.h5')
+
+def get_one_hot_encoding(state, next_state):
+
+  state_arr = np.zeros(500)
+  next_state_arr = np.zeros(500)
+
+  state_arr[state] = 1
+  next_state_arr[next_state] = 1
+  
+  return state_arr, next_state_arr
 
 def create_video(filename, env, q_network, fps=30):
   video = imageio.get_writer(filename, fps=fps)
