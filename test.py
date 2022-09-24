@@ -8,7 +8,7 @@ logging.getLogger().setLevel(logging.ERROR)
 
 env = gym.make("Taxi-v3")
 
-q_network = tf.keras.models.load_model('taxi_model.h5')
+q_network = tf.keras.models.load_model('./taxi_model.h5')
 
 def get_one_hot_encoding(state, next_state):
 
