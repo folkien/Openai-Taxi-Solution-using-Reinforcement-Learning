@@ -1,10 +1,9 @@
 import gym
 import numpy as np
-import PIL.Image
 from collections import namedtuple, deque
 
 import tensorflow as tf
-from pyvirtualdisplay import Display
+# from pyvirtualdisplay import Display
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Input
 from tensorflow.keras.losses import MSE
@@ -12,7 +11,7 @@ from tensorflow.keras.optimizers import Adam
 
 import random
 
-Display(visible=False, size=(840, 480)).start()
+# Display(visible=False, size=(840, 480)).start()
 tf.random.set_seed(0)
 
 env = gym.make("Taxi-v3")
@@ -106,7 +105,6 @@ def get_one_hot_encoding(state, next_state):
   return state_arr, next_state_arr
 
 
-from gym.envs.toy_text.frozen_lake import generate_random_map
 
 def train():
 
@@ -122,7 +120,7 @@ def train():
 
   for i in range(NUM_EPISODES):
 
-    state = env.reset()
+    state, info = env.reset()
     state, _ = get_one_hot_encoding(state, 0)
     total_points = 0
 
@@ -131,7 +129,7 @@ def train():
       state_qn = np.expand_dims(state, axis=0)
       q_values = q_network(state_qn)
       action = get_action(q_values, epsilon)
-      next_state, reward, done, _ = env.step(action)
+      next_state, reward, done, truncated, info = env.step(action)
 
       _, next_state = get_one_hot_encoding(0, next_state)
 
